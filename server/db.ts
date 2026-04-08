@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, InsertStudent, students, InsertTimetable, timetables, studentTimetables, timetableFiles, InsertTimetableFile } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,134 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// ============ Student Database Helpers ============
+
+export async function createStudent(data: InsertStudent) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(students).values(data);
+  return result;
+}
+
+export async function getStudentByMatricNumber(matricNumber: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+
+  const result = await db.select().from(students).where(eq(students.matricNumber, matricNumber)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getStudentById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+
+  const result = await db.select().from(students).where(eq(students.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function updateStudentProfile(studentId: number, data: Partial<InsertStudent>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.update(students).set(data).where(eq(students.id, studentId));
+  return result;
+}
+
+export async function getAllStudents() {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db.select().from(students);
+}
+
+// ============ Timetable Database Helpers ============
+
+export async function createTimetable(data: InsertTimetable) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(timetables).values(data);
+  return result;
+}
+
+export async function getTimetableById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+
+  const result = await db.select().from(timetables).where(eq(timetables.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getAllTimetables() {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db.select().from(timetables);
+}
+
+export async function getStudentTimetables(studentId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  const result = await db
+    .select()
+    .from(timetables)
+    .innerJoin(studentTimetables, eq(timetables.id, studentTimetables.timetableId))
+    .where(eq(studentTimetables.studentId, studentId));
+
+  return result.map(row => row.timetables);
+}
+
+export async function assignTimetableToStudent(studentId: number, timetableId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(studentTimetables).values({ studentId, timetableId });
+  return result;
+}
+
+export async function deleteTimetable(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  // Delete student-timetable associations first
+  await db.delete(studentTimetables).where(eq(studentTimetables.timetableId, id));
+  
+  // Then delete the timetable
+  const result = await db.delete(timetables).where(eq(timetables.id, id));
+  return result;
+}
+
+// ============ Timetable File Database Helpers ============
+
+export async function createTimetableFile(data: InsertTimetableFile) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(timetableFiles).values(data);
+  return result;
+}
+
+export async function getTimetableFileById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+
+  const result = await db.select().from(timetableFiles).where(eq(timetableFiles.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getAllTimetableFiles() {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db.select().from(timetableFiles);
+}
+
+export async function deleteTimetableFile(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.delete(timetableFiles).where(eq(timetableFiles.id, id));
+  return result;
+}

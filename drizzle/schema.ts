@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, datetime } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -25,4 +25,70 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
-// TODO: Add your tables here
+/**
+ * Students table for TSU exam portal
+ * Stores student-specific information including matric number, department, and profile photo
+ */
+export const students = mysqlTable("students", {
+  id: int("id").autoincrement().primaryKey(),
+  matricNumber: varchar("matricNumber", { length: 50 }).notNull().unique(),
+  fullName: varchar("fullName", { length: 255 }).notNull(),
+  department: varchar("department", { length: 255 }).notNull(),
+  passwordHash: varchar("passwordHash", { length: 255 }).notNull(),
+  profilePhotoUrl: text("profilePhotoUrl"), // CDN URL to S3
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Student = typeof students.$inferSelect;
+export type InsertStudent = typeof students.$inferInsert;
+
+/**
+ * Timetables table for storing exam schedule information
+ * Each row represents an exam entry in the timetable
+ */
+export const timetables = mysqlTable("timetables", {
+  id: int("id").autoincrement().primaryKey(),
+  examId: varchar("examId", { length: 100 }).notNull().unique(),
+  courseCode: varchar("courseCode", { length: 50 }).notNull(),
+  courseName: varchar("courseName", { length: 255 }).notNull(),
+  examDate: varchar("examDate", { length: 50 }).notNull(), // Format: YYYY-MM-DD
+  startTime: varchar("startTime", { length: 50 }).notNull(), // Format: HH:MM
+  endTime: varchar("endTime", { length: 50 }).notNull(), // Format: HH:MM
+  venue: varchar("venue", { length: 255 }).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Timetable = typeof timetables.$inferSelect;
+export type InsertTimetable = typeof timetables.$inferInsert;
+
+/**
+ * Student-Timetable junction table for many-to-many relationship
+ * Links students to their exam timetables
+ */
+export const studentTimetables = mysqlTable("studentTimetables", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("studentId").notNull(),
+  timetableId: int("timetableId").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type StudentTimetable = typeof studentTimetables.$inferSelect;
+export type InsertStudentTimetable = typeof studentTimetables.$inferInsert;
+
+/**
+ * Timetable files table for storing uploaded timetable files
+ * Admin uploads timetable files (PDF/Excel/Image) which are stored in S3
+ */
+export const timetableFiles = mysqlTable("timetableFiles", {
+  id: int("id").autoincrement().primaryKey(),
+  fileUrl: text("fileUrl").notNull(), // CDN URL to S3
+  fileName: varchar("fileName", { length: 255 }).notNull(),
+  fileType: varchar("fileType", { length: 50 }).notNull(), // pdf, excel, image, etc.
+  uploadedByAdmin: varchar("uploadedByAdmin", { length: 255 }).notNull(), // Admin identifier
+  uploadedAt: timestamp("uploadedAt").defaultNow().notNull(),
+});
+
+export type TimetableFile = typeof timetableFiles.$inferSelect;
+export type InsertTimetableFile = typeof timetableFiles.$inferInsert;
