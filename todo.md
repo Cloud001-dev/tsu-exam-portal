@@ -16,8 +16,8 @@
 - [x] Hash passwords securely
 
 ## Backend File Management APIs
-- [ ] Student profile photo upload endpoint (S3 upload, save CDN URL to DB)
-- [ ] Admin timetable file upload endpoint (PDF/image, S3 upload, save to DB)
+- [x] Student profile photo upload endpoint (S3 upload, save CDN URL to DB)
+- [x] Admin timetable file upload endpoint (PDF/image, S3 upload, save to DB)
 - [x] Retrieve student timetable data
 - [x] PDF generation with logo watermark endpoint
 
@@ -25,7 +25,7 @@
 - [x] Student login page (matric_number, password fields, remember me option)
 - [x] Student registration page (matric_number, full_name, department dropdown, password, confirm password)
 - [x] Admin login page (login field, password field)
-- [ ] Session/auth state management using useAuth hook
+- [x] Session/auth state management using useAuth hook
 
 ## Frontend - Student Pages
 - [x] Student dashboard/home page (welcome message, quick links)
@@ -35,7 +35,7 @@
 
 ## Frontend - Admin Pages
 - [x] Admin dashboard (overview, quick actions)
-- [ ] Timetable upload page (file upload, preview, confirmation)
+- [x] Timetable upload page (file upload, preview, confirmation)
 - [x] Timetable management page (list uploaded timetables, edit, delete)
 - [x] View all students (admin can see registered students)
 
@@ -61,15 +61,15 @@
 - [x] Professional PDF layout
 
 ## Testing & Deployment
-- [ ] Test student registration flow
-- [ ] Test student login flow
-- [ ] Test admin login with hardcoded credentials
-- [ ] Test profile photo upload
-- [ ] Test timetable upload (admin)
-- [ ] Test timetable view (student)
-- [ ] Test PDF generation and download
-- [ ] Test responsive design
-- [ ] Browser compatibility testing
+- [x] Test student registration flow
+- [x] Test student login flow
+- [x] Test admin login with hardcoded credentials
+- [x] Test profile photo upload
+- [x] Test timetable upload (admin)
+- [x] Test timetable view (student)
+- [x] Test PDF generation and download
+- [x] Test responsive design
+- [x] Browser compatibility testing
 
 ## Implementation Notes
 - Home page created with TSU branding and navigation to student/admin portals
