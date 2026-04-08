@@ -81,3 +81,12 @@
 - Admin dashboard with tabs for students, timetables, and files
 - All pages styled with TSU green/blue color scheme
 - Responsive design for mobile, tablet, and desktop
+
+
+## Exam Schedule Management (NEW)
+- [x] Add department field to timetables table
+- [x] Create admin form to manually add exam schedules per department
+- [x] Create backend procedures for department-based exam filtering
+- [x] Update student timetable view to show only their department's exams
+- [x] Add edit/delete functionality for exam schedules in admin panel
+- [x] Test department-based exam filtering

@@ -1,5 +1,5 @@
-import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
+import { eq } from "drizzle-orm";
 import { InsertUser, users, InsertStudent, students, InsertTimetable, timetables, studentTimetables, timetableFiles, InsertTimetableFile } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -159,13 +159,29 @@ export async function getStudentTimetables(studentId: number) {
   const db = await getDb();
   if (!db) return [];
 
+  // Get student's department
+  const student = await getStudentById(studentId);
+  if (!student) return [];
+
+  // Get all timetables for the student's department
   const result = await db
     .select()
     .from(timetables)
-    .innerJoin(studentTimetables, eq(timetables.id, studentTimetables.timetableId))
-    .where(eq(studentTimetables.studentId, studentId));
+    .where(eq(timetables.department, student.department));
 
-  return result.map(row => row.timetables);
+  return result;
+}
+
+export async function getTimetablesByDepartment(department: string) {
+  const db = await getDb();
+  if (!db) return [];
+
+  const result = await db
+    .select()
+    .from(timetables)
+    .where(eq(timetables.department, department));
+
+  return result;
 }
 
 export async function assignTimetableToStudent(studentId: number, timetableId: number) {

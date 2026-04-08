@@ -1,0 +1,1 @@
+ALTER TABLE `timetables` ADD `department` varchar(255) NOT NULL;

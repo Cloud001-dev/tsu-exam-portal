@@ -4,7 +4,7 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router, protectedProcedure } from "./_core/trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { getStudentByMatricNumber, createStudent, getStudentById, updateStudentProfile, getAllTimetables, getStudentTimetables, createTimetableFile, getAllTimetableFiles, deleteTimetableFile, createTimetable, getAllStudents } from "./db";
+import { getStudentByMatricNumber, createStudent, getStudentById, updateStudentProfile, getAllTimetables, getStudentTimetables, createTimetableFile, getAllTimetableFiles, deleteTimetableFile, createTimetable, getAllStudents, deleteTimetable } from "./db";
 import { hashPassword, verifyPassword, isValidMatricNumber, isValidPassword } from "./auth";
 import { ADMIN_CREDENTIALS } from "@shared/constants";
 import { storagePut } from "./storage";
@@ -239,6 +239,7 @@ export const appRouter = router({
           examId: z.string(),
           courseCode: z.string(),
           courseName: z.string(),
+          department: z.string(),
           examDate: z.string(),
           startTime: z.string(),
           endTime: z.string(),
@@ -260,6 +261,23 @@ export const appRouter = router({
     getAllTimetables: publicProcedure.query(async () => {
       return await getAllTimetables();
     }),
+
+    getTimetablesByDepartment: publicProcedure
+      .input(z.object({ department: z.string() }))
+      .query(async ({ input }) => {
+        const timetables = await getAllTimetables();
+        return timetables.filter(t => t.department === input.department);
+      }),
+
+    deleteTimetable: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        await deleteTimetable(input.id);
+        return {
+          success: true,
+          message: "Timetable deleted successfully",
+        };
+      }),
   }),
 });
 

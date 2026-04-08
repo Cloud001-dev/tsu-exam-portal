@@ -15,6 +15,13 @@
       "when": 1775652726264,
       "tag": "0001_cloudy_morlocks",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1775689644310,
+      "tag": "0002_peaceful_shinobi_shaw",
+      "breakpoints": true
     }
   ]
 }

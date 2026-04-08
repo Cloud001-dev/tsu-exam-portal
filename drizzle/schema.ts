@@ -46,12 +46,14 @@ export type InsertStudent = typeof students.$inferInsert;
 /**
  * Timetables table for storing exam schedule information
  * Each row represents an exam entry in the timetable
+ * Department field allows for department-specific exam schedules
  */
 export const timetables = mysqlTable("timetables", {
   id: int("id").autoincrement().primaryKey(),
   examId: varchar("examId", { length: 100 }).notNull().unique(),
   courseCode: varchar("courseCode", { length: 50 }).notNull(),
   courseName: varchar("courseName", { length: 255 }).notNull(),
+  department: varchar("department", { length: 255 }).notNull(),
   examDate: varchar("examDate", { length: 50 }).notNull(), // Format: YYYY-MM-DD
   startTime: varchar("startTime", { length: 50 }).notNull(), // Format: HH:MM
   endTime: varchar("endTime", { length: 50 }).notNull(), // Format: HH:MM
@@ -62,6 +64,18 @@ export const timetables = mysqlTable("timetables", {
 
 export type Timetable = typeof timetables.$inferSelect;
 export type InsertTimetable = typeof timetables.$inferInsert;
+
+/**
+ * Department list for TSU
+ */
+export const DEPARTMENTS = [
+  "Computer Science",
+  "Computer Science Education",
+  "Information Technology",
+  "Software Engineering",
+] as const;
+
+export type Department = (typeof DEPARTMENTS)[number];
 
 /**
  * Student-Timetable junction table for many-to-many relationship
@@ -92,3 +106,10 @@ export const timetableFiles = mysqlTable("timetableFiles", {
 
 export type TimetableFile = typeof timetableFiles.$inferSelect;
 export type InsertTimetableFile = typeof timetableFiles.$inferInsert;
+
+/**
+ * Helper to get all departments
+ */
+export function getAllDepartments() {
+  return DEPARTMENTS;
+}

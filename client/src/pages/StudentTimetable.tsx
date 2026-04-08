@@ -89,8 +89,8 @@ export default function StudentTimetable() {
       doc.setFillColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
       doc.setTextColor(255, 255, 255);
       doc.setFont("helvetica" as any, "bold" as any);
-      const headers = ["Course Code", "Course Name", "Date", "Time", "Venue"];
-      const columnWidths = [30, 50, 30, 25, 35];
+      const headers = ["Course Code", "Course Name", "Department", "Date", "Time", "Venue"];
+      const columnWidths = [25, 45, 30, 25, 20, 30];
       let xPosition = 15;
 
       headers.forEach((header, index) => {
@@ -132,6 +132,7 @@ export default function StudentTimetable() {
         const rowData = [
           exam.courseCode,
           exam.courseName,
+          exam.department,
           exam.examDate,
           `${exam.startTime || ""}-${exam.endTime || ""}`,
           exam.venue,
@@ -247,6 +248,7 @@ export default function StudentTimetable() {
                         <tr className="bg-gradient-to-r from-[#1a472a] to-[#003d82] text-white">
                           <th className="px-6 py-4 text-left font-semibold">Course Code</th>
                           <th className="px-6 py-4 text-left font-semibold">Course Name</th>
+                          <th className="px-6 py-4 text-left font-semibold">Department</th>
                           <th className="px-6 py-4 text-left font-semibold">Exam Date</th>
                           <th className="px-6 py-4 text-left font-semibold">Time</th>
                           <th className="px-6 py-4 text-left font-semibold">Venue</th>
@@ -262,6 +264,7 @@ export default function StudentTimetable() {
                           >
                             <td className="px-6 py-4 font-semibold text-gray-900">{exam.courseCode}</td>
                             <td className="px-6 py-4 text-gray-700">{exam.courseName}</td>
+                            <td className="px-6 py-4 text-sm font-medium text-[#1a472a]">{exam.department}</td>
                             <td className="px-6 py-4 text-gray-700">{exam.examDate}</td>
                             <td className="px-6 py-4 text-gray-700">
                               {exam.startTime || ""} - {exam.endTime || ""}
