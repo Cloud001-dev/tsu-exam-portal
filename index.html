@@ -3,17 +3,472 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TSU Examination Portal - Redirecting...</title>
-    <script>
-        // Redirect to the client application
-        window.location.replace('./client/index.html');
-    </script>
-    <!-- Fallback for browsers with JavaScript disabled -->
-    <meta http-equiv="refresh" content="0; url=./client/index.html">
-    <link rel="canonical" href="./client/index.html">
+    <meta name="description" content="TSU Examination Portal - Manage your exam timetables online at Taraba State University">
+    <meta name="keywords" content="TSU, Examination, Timetable, Taraba State University">
+    <title>TSU Examination Portal - Welcome</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-section img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: contain;
+        }
+
+        .logo-text h1 {
+            font-size: 24px;
+            color: #667eea;
+            margin: 0;
+        }
+
+        .logo-text p {
+            font-size: 12px;
+            color: #666;
+            margin: 2px 0 0 0;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-buttons a {
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .nav-buttons .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-buttons .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-buttons .btn-secondary {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .nav-buttons .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .welcome-section {
+            background: white;
+            border-radius: 15px;
+            padding: 60px 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .welcome-section h2 {
+            font-size: 42px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .welcome-section p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+            text-align: left;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+            text-align: left;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .cta-buttons a {
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .cta-buttons .btn-enter {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .cta-buttons .btn-enter:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .cta-buttons .btn-info {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .cta-buttons .btn-info:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-content p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .footer-content .institution {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .footer-links {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            transition: opacity 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .welcome-section {
+                padding: 40px 20px;
+            }
+
+            .welcome-section h2 {
+                font-size: 32px;
+            }
+
+            .welcome-section p {
+                font-size: 16px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-buttons a {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        /* Loading animation */
+        .loading-text {
+            display: none;
+            color: #667eea;
+            font-size: 14px;
+            margin-top: 20px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .loading-text.show {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-    <p>Redirecting to TSU Examination Portal...</p>
-    <p>If you are not redirected automatically, <a href="./client/index.html">click here</a>.</p>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo-section">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23667eea'/%3E%3Ctext x='50' y='60' font-size='40' fill='white' text-anchor='middle' font-weight='bold'%3ETSU%3C/text%3E%3C/svg%3E" alt="TSU Logo">
+                <div class="logo-text">
+                    <h1>TSU Portal</h1>
+                    <p>Examination Timetable System</p>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <a href="#enter" class="btn-primary" onclick="redirectToApp(); return false;">Enter Portal</a>
+                <a href="#features" class="btn-secondary">Learn More</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <div class="welcome-section">
+                <h2>Welcome to TSU Examination Portal</h2>
+                <p>Your one-stop platform for managing examination timetables at Taraba State University</p>
+
+                <!-- Features Grid -->
+                <div class="features-grid" id="features">
+                    <div class="feature-card">
+                        <h3>📅 View Timetables</h3>
+                        <p>Access your personalized exam schedule anytime, anywhere. See exam dates, times, and venues at a glance.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>📱 Profile Management</h3>
+                        <p>Upload your profile picture and manage your student information easily through your personal dashboard.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>📄 Download PDF</h3>
+                        <p>Export your timetable as a professional PDF with the TSU logo and watermark for printing or offline access.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🔒 Secure Login</h3>
+                        <p>Your account is protected with secure authentication. Only you can access your exam information.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>⚙️ Admin Management</h3>
+                        <p>Administrators can easily create, edit, and manage exam schedules for all departments and levels.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🎓 University Official</h3>
+                        <p>Official system of Taraba State University with TSU branding and institutional verification.</p>
+                    </div>
+                </div>
+
+                <!-- Call to Action -->
+                <div class="cta-buttons">
+                    <a href="#enter" id="enter" class="btn-enter" onclick="redirectToApp(); return false;">Enter the Portal</a>
+                    <a href="#" class="btn-info" onclick="showInfo(); return false;">How It Works</a>
+                </div>
+
+                <div class="loading-text" id="loadingText">Redirecting to the portal...</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p class="institution">Taraba State University, Jalingo</p>
+            <p>Faculty of Computing and Artificial Intelligence</p>
+            <p>Department of Computer Science</p>
+            <div class="footer-links">
+                <a href="https://www.tsu.edu.ng" target="_blank">Visit TSU Website</a>
+                <a href="#" onclick="showHelp(); return false;">Help & Support</a>
+                <a href="#" onclick="showPrivacy(); return false;">Privacy Policy</a>
+            </div>
+            <p style="margin-top: 15px; font-size: 12px; opacity: 0.8;">© 2026 Taraba State University. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Redirect to main application
+        function redirectToApp() {
+            document.getElementById('loadingText').classList.add('show');
+            setTimeout(() => {
+                window.location.replace('./client/index.html');
+            }, 500);
+        }
+
+        // Show information modal
+        function showInfo() {
+            alert('TSU Examination Portal\n\n' +
+                'How It Works:\n' +
+                '1. Students register with their matric number\n' +
+                '2. Log in with your credentials\n' +
+                '3. View your personalized exam timetable\n' +
+                '4. Upload your profile picture\n' +
+                '5. Download your timetable as PDF\n\n' +
+                'Administrators can manage exam schedules and upload the institution logo.\n\n' +
+                'Click "Enter the Portal" to get started!');
+        }
+
+        // Show help information
+        function showHelp() {
+            alert('Help & Support\n\n' +
+                'For technical issues:\n' +
+                'Contact: IT Support\n' +
+                'Email: support@tsu.edu.ng\n\n' +
+                'For exam-related questions:\n' +
+                'Contact: Examination Office\n' +
+                'Phone: +234 (0) XXX XXX XXXX\n\n' +
+                'For login issues:\n' +
+                'Use your matric number and password.\n' +
+                'If you forgot your password, contact the examination office.');
+        }
+
+        // Show privacy policy
+        function showPrivacy() {
+            alert('Privacy Policy\n\n' +
+                'Your data is protected:\n' +
+                '• Passwords are encrypted\n' +
+                '• Personal information is secure\n' +
+                '• Only authorized staff can access admin features\n' +
+                '• Profile pictures are stored securely\n\n' +
+                'For full privacy policy, visit the TSU website.');
+        }
+
+        // Auto-redirect after 5 seconds (optional)
+        // Uncomment the line below if you want auto-redirect
+        // setTimeout(redirectToApp, 5000);
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#enter' && href !== '#features') {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
